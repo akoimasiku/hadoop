@@ -10,11 +10,13 @@ def parseInput(line):
 if __name__ == "__main__":
     # Create a SparkSession
     spark = SparkSession.builder.\
-    appName("CassandraDemo").\
+    appName("CassandraMoviesData").\
+    #  Spark session to connect to the Cassandra Host
     config("spark.cassandra.connection.host", "127.0.0.1").\
-    getOrCreate()
+    # Get already created SparkSession or create a new one
+    getOrCreate()   
     
-    # Creating RDD on a raw text file by uploading the file into HDFS
+    # Creating RDD using the SparkContext on a raw text file
     lines = spark.sparkContext.textFile("hdfs:///user/maria_dev/cassandra/movies.user")
     # Convert it to a RDD of Row objects with (userID, age, gender, occupation, zip)
     users = lines.map(parseInput)
